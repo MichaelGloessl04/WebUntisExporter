@@ -22,7 +22,5 @@ def test_wuhandler_classes():
                                        password='19Gloessl10!2004',
                                        school='htbla-weiz',
                                        useragent='mgloessl')
-    assert handler.classes != None
-    assert type(handler.classes) == list
-    for lesson in handler.classes:
-        
+    assert handler.timetable != None
+    assert type(handler.timetable) == list

@@ -1,5 +1,5 @@
-from http import server
 import webuntis
+import datetime
 
 class WebUntisHandler:
     def __init__(self, server, username, password, school, useragent) -> None:
@@ -9,8 +9,12 @@ class WebUntisHandler:
                              school=school,
                              useragent=useragent)
         s.login()
-        self._classes = s.subjects()
+        today = datetime.date.today()
+        monday = today - datetime.timedelta(days=today.weekday())
+        friday = monday + datetime.timedelta(days=4)
+        klasse = s.klassen().filter(id=1312)[0]
+        self._timetable = s.timetable(klasse=klasse, start=monday, end=friday)
 
     @property
-    def classes(self):
-        return self._classes
+    def timetable(self):
+        return self._timetable.to_table()
