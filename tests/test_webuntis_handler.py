@@ -23,4 +23,5 @@ def test_wuhandler_classes():
                                        school='htbla-weiz',
                                        useragent='mgloessl')
     assert handler.timetable != None
+    assert handler.Subjects != None
     assert type(handler.timetable) == list
