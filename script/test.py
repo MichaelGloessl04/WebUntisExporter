@@ -12,11 +12,14 @@ today = datetime.date.today()
 monday = today - datetime.timedelta(days=today.weekday())
 friday = monday + datetime.timedelta(days=4)
 klasse = s.klassen().filter(id=1312)[0]
-foo = s.timetable(klasse=klasse, start=monday, end=friday)
+timetable = s.timetable(klasse=klasse, start=monday, end=friday)
 subjects = s.subjects()
 
-for lesson in foo:
+for lesson in timetable:
     try:
+        print(lesson)
         print(s.subjects().filter(id=lesson.subjects[0].id))
+        print(lesson.start)
+        print(lesson.end)
     except Exception as e:
         print(e)
