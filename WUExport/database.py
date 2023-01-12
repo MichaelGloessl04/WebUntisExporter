@@ -14,4 +14,3 @@ class Database:
 
     def add_lesson(self, lesson_name, lesson_start, lesson_end):
         
-    
