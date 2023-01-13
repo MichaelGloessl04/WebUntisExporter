@@ -1,5 +1,6 @@
 import webuntis
 import datetime
+import time
 from database import Database
 
 class WebUntisHandler:
@@ -24,5 +25,8 @@ class WebUntisHandler:
     def update_database(self):
         for lesson in self._timetable:
             self.db.add_lesson(self.school.subjects().filter(id=lesson.subjects[0].id)[0].name,
-                               lesson.start,
-                               lesson.end)
+                               time.mktime(lesson.start.timetuple()),
+                               time.mktime(lesson.end.timetuple())
+
+    def clear_database(self):
+        self.db.clear_table("timetable")
