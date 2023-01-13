@@ -7,7 +7,7 @@ def main():
                            school='htbla-weiz',
                            useragent='mgloessl')
 
-    wuh.update_database()
+    wuh.print_database()
 
 if __name__ == "__main__":
     main()

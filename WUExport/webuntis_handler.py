@@ -23,10 +23,15 @@ class WebUntisHandler:
         return self._timetable.to_table()
 
     def update_database(self):
+        self.db.clear_table()
         for lesson in self._timetable:
             self.db.add_lesson(self.school.subjects().filter(id=lesson.subjects[0].id)[0].name,
                                time.mktime(lesson.start.timetuple()),
-                               time.mktime(lesson.end.timetuple())
+                               time.mktime(lesson.end.timetuple()))
+        self.db.print_table()
 
     def clear_database(self):
-        self.db.clear_table("timetable")
+        self.db.clear_table()
+
+    def print_database(self):
+        self.db.print_table()
