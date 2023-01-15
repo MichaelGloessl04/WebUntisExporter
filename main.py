@@ -1,4 +1,4 @@
-from webuntis_handler import WebUntisHandler
+from WUExport import WebUntisHandler
 
 def main():
     wuh = WebUntisHandler(server='aoide.webuntis.com',
@@ -7,6 +7,7 @@ def main():
                            school='htbla-weiz',
                            useragent='mgloessl')
 
+    wuh.update_database()
     wuh.print_database()
 
 if __name__ == "__main__":

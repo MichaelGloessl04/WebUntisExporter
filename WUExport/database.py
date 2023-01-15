@@ -32,37 +32,37 @@ class Database:
 
     def print_table(self):
         last = None
-        # Connect to the database
-        conn = db.connect('timetable.db')
+        with db.connect('timetable.db') as conn:
+            cursor = conn.cursor()
 
-        # Create a cursor object
-        cursor = conn.cursor()
+            cursor.execute("""
+                           SELECT
+                              name,
+                              start,
+                              end
+                           FROM
+                              timetable
+                           ORDER BY
+                              start DESC;
+                           """)
 
-        # Execute the "SELECT name FROM sqlite_master WHERE type='table'" query
-        cursor.execute("""SELECT
-                            name,
-                            start,
-                            end
-                        FROM
-                            timetable
-                        ORDER BY
-                            start DESC;""")
+            table = cursor.fetchall()
+            table.reverse()
 
-        # Fetch all the results
-        table = cursor.fetchall()
-        table.reverse()
+            for lesson in table:
+                now = lesson
+                start = self._unix_to_datetime(now[1])
+                end = self._unix_to_datetime(now[2])
+                stmt = "{0} | {1} | {2}".format(lesson[0], start, end)
+                
+                if lesson is table[0]:
+                    print(stmt)
+                    last = now
+                elif last != now:
+                    if self._unix_to_datetime(last[1]).day != start.day:
+                        print('-------------%s.%s.%s------------' % (start.day, start.month, start.year))
+                    print(stmt)
+                    last = now
 
-        # Print the names of all the tables
-        for lessons in table:
-            now = "{0} | {1} | {2}".format(lessons[0], datetime.fromtimestamp(int(lessons[1])), datetime.fromtimestamp(int(lessons[2])))
-            if lessons is table[0]:
-                print(now)
-                last = now
-            elif last is not now:
-                print(now)
-                last = now
-            
-
-        # Close the cursor and the connection
-        cursor.close()
-        conn.close()
+    def _unix_to_datetime(self, unix):
+        return datetime.fromtimestamp(int(unix))
