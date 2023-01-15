@@ -1,7 +1,7 @@
 import webuntis
 import datetime
 import time
-from database import Database
+from .database import Database
 
 class WebUntisHandler:
     def __init__(self, server, username, password, school, useragent) -> None:
