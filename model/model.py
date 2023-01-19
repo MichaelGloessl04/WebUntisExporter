@@ -1,4 +1,4 @@
-import sqlalchemy
+import sqlalchemy as db
 import sqlalchemy.ext.declarative
 from sqlalchemy.orm import relationship
 
@@ -6,25 +6,29 @@ Base = sqlalchemy.ext.declarative.declarative_base()
 
 
 class Timetable(Base):
-    """Student representation."""
+    """Timetable representation."""
 
-    __tablename__ = "student"
-    student_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    first_name = sqlalchemy.Column(sqlalchemy.String)
-    sure_name = sqlalchemy.Column(sqlalchemy.String)
-    emails = relationship("Email", backref="Email")
-
-    def __repr__(self):
-        """Get representation."""
-        return "<Student: %s %s>" % (self.first_name, self.sure_name)
+    __tablename__ = "timetable"
+    id = db.Column(db.Integer, primary_key=True)
+    subject = relationship("Subjects", backref="Subjects")
+    start = db.Column(db.Integer)
+    end = db.Column(db.Integer)
+    teacher = relationship("Teachers", backref="")
 
 
-class Email(Base):
-    """Email address representation."""
+class Subjects(Base):
+    """Subject representation."""
+    
+    __tablename__ = "subjects"
+    id = db.Column(db.Integer, primary_key=True)
+    long_name = db.Column(db.String)
+    short_name = db.Column(db.String)
 
-    __tablename__ = "email"
-    email_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
-    email = sqlalchemy.Column(sqlalchemy.String)
-    student_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                   sqlalchemy.ForeignKey("student.student_id"),
-                                   nullable=False)
+
+class Teachers(Base):
+    """Teacher representation."""
+    
+    __tablename__ = "teachers"
+    id = db.Column(db.Integer, primary_key=True)
+    long_name = db.Column(db.String)
+    short_name = db.Column(db.String)
