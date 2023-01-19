@@ -4,7 +4,6 @@ import time
 
 class WebUntisHandler:
     def __init__(self, server, username, password, school) -> None:
-        self.db = Database()
         self.school = webuntis.Session(server=server,
                              username=username,
                              password=password,
