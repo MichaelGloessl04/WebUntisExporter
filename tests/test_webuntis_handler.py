@@ -11,8 +11,7 @@ def test_wuhandler_init():
     handler = WUExport.WebUntisHandler(server='aoide.webuntis.com',
                                        username='gloess190117',
                                        password='19Gloessl10!2004',
-                                       school='htbla-weiz',
-                                       useragent='mgloessl')
+                                       school='htbla-weiz')
 
 def test_wuhandler_classes():
     import WUExport
@@ -20,8 +19,7 @@ def test_wuhandler_classes():
     handler = WUExport.WebUntisHandler(server='aoide.webuntis.com',
                                        username='gloess190117',
                                        password='19Gloessl10!2004',
-                                       school='htbla-weiz',
-                                       useragent='mgloessl')
+                                       school='htbla-weiz')
     assert handler.timetable != None
     assert handler.Subjects != None
     assert type(handler.timetable) == list

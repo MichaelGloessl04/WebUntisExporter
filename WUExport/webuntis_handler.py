@@ -4,13 +4,13 @@ import time
 from .database import Database
 
 class WebUntisHandler:
-    def __init__(self, server, username, password, school, useragent) -> None:
+    def __init__(self, server, username, password, school) -> None:
         self.db = Database()
         self.school = webuntis.Session(server=server,
                              username=username,
                              password=password,
                              school=school,
-                             useragent=useragent)
+                             useragent=username)
         self.school.login()
         today = datetime.date.today()
         monday = today - datetime.timedelta(days=today.weekday())
