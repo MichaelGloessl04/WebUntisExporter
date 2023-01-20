@@ -2,14 +2,15 @@ import webuntis
 import datetime
 import time
 
+
 class WebUntisHandler:
     def __init__(self, server, username, password, school) -> None:
         self._session = webuntis.Session(server=server,
-                             username=username,
-                             password=password,
-                             school=school,
-                             useragent=username)
-        
+                                         username=username,
+                                         password=password,
+                                         school=school,
+                                         useragent=username)
+
     @property
     def timetable(self):
         today = datetime.date.today()
@@ -32,7 +33,7 @@ class WebUntisHandler:
                     out += letter
                     found = True
                 except ValueError:
-                    if found == True:
+                    if found is True:
                         break
             output.app
         return output
@@ -45,6 +46,7 @@ class WebUntisHandler:
 
     def update_database(self):
         for lesson in self._timetable:
-            self.db.add_lesson(self._session.subjects().filter(id=lesson.subjects[0].id)[0].name,
+            self.db.add_lesson(self._session.subjects().filter(
+                               id=lesson.subjects[0].id)[0].name,
                                time.mktime(lesson.start.timetuple()),
                                time.mktime(lesson.end.timetuple()))
