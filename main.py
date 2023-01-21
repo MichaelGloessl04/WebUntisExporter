@@ -2,8 +2,9 @@ import databank
 
 
 def main():
-    teacher = databank.Teacher()
-    teacher.delete_id(1)
+    t = databank.Teacher()
+    t.delete_all()
+    t._dump_teacher_names()
 
 
 if __name__ == "__main__":
