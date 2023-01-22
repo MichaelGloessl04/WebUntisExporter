@@ -3,8 +3,7 @@ import databank
 
 def main():
     t = databank.Teacher()
-    t.delete_all()
-    t._dump_teacher_names()
+    t.append(0, "Johannes Baumer", "BM")
 
 
 if __name__ == "__main__":
