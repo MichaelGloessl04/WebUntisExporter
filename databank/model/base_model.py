@@ -1,17 +1,17 @@
 import sqlalchemy as db
 from sqlalchemy.ext.declarative import declarative_base
-import inspect
 
 
 Base = declarative_base()
 
 
 class BaseModel(Base):
+    __abstract__ = True
+
     def __init__(self) -> None:
         self._implemented_check()
-        self._model = None
         db_connection = db.create_engine("sqlite:///databank/databank.db")
-        base.metadata.create_all(db_connection)
+        Base.metadata.create_all(db_connection)
         self.session_factory = db.orm.sessionmaker()
         self.session_factory.configure(bind=db_connection)
 
@@ -23,7 +23,7 @@ class BaseModel(Base):
     @property
     def Model(self):
         self._implemented_check()
-        return self._model
+        return type(self)
 
     @property
     def Column_Names(self):
@@ -35,11 +35,12 @@ class BaseModel(Base):
         if type(self) == Base:
             raise NotImplementedError
 
-    def append(self):
-        self._implemented_check()
-        keys = list(inspect.signature(self.append).parameters.get())
+    def append(self, **collumns):
         with self.session_factory() as session:
-            session.add(self.Model())
+            for key, value in collumns.items():
+                setattr(self, key, value)
+            session.add(self)
+            session.commit()
 
     def delete(self, column: str, value: any):
         """Deletes rows based on the given column and value."""

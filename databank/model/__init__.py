@@ -1,10 +1,12 @@
-from .model import (Timetable, Todos, Subjects,
-                    Teachers, Absences, Users,
-                    Base)
+from .teachers import Teachers
+from .absences import Absences
+from .subjects import Subjects
+from .timetable import Timetable
+from .todos import Todos
+from .users import Users
 
 
 __exports__ = [
-    Base,
     Timetable,
     Todos,
     Subjects,
