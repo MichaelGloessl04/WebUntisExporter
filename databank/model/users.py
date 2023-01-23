@@ -9,6 +9,3 @@ class Users(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String)
     password = db.Column(db.String)
-
-    def __init__(self) -> None:
-        super().__init_()

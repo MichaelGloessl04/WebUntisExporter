@@ -9,6 +9,3 @@ class Subjects(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     long_name = db.Column(db.String)
     short_name = db.Column(db.String)
-
-    def __init__(self) -> None:
-        super().__init__()

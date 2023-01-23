@@ -9,6 +9,3 @@ class Absences(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     start = db.Column(db.Time)
     end = db.Column(db.Time)
-
-    def __init__(self) -> None:
-        super().__init__()

@@ -14,6 +14,3 @@ class Todos(BaseModel):
     start = db.Column(db.Time)
     end = db.Column(db.Time)
     colour = db.Column(db.String)
-
-    def __init__(self) -> None:
-        super().__init_()

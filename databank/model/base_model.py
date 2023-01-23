@@ -8,12 +8,12 @@ Base = declarative_base()
 class BaseModel(Base):
     __abstract__ = True
 
-    def __init__(self) -> None:
-        self._implemented_check()
-        db_connection = db.create_engine("sqlite:///databank/databank.db")
-        Base.metadata.create_all(db_connection)
-        self.session_factory = db.orm.sessionmaker()
-        self.session_factory.configure(bind=db_connection)
+    global session_factory
+
+    db_connection = db.create_engine("sqlite:///databank/databank.db")
+    Base.metadata.create_all(bind=db_connection)
+    session_factory = db.orm.sessionmaker()
+    session_factory.configure(bind=db_connection)
 
     @property
     def Table_Name(self):
@@ -36,16 +36,15 @@ class BaseModel(Base):
             raise NotImplementedError
 
     def append(self, **collumns):
-        with self.session_factory() as session:
-            for key, value in collumns.items():
-                setattr(self, key, value)
-            session.add(self)
+        with session_factory() as session:
+            row = self.Model(**collumns)
+            session.add(row)
             session.commit()
 
     def delete(self, column: str, value: any):
         """Deletes rows based on the given column and value."""
         self._implemented_check()
-        with self.session_factory() as session:
+        with session_factory() as session:
             session.query(self.Model).filter(
                 getattr(self.Model, column) == value
                 ).delete(synchronize_session="fetch")
@@ -53,6 +52,6 @@ class BaseModel(Base):
 
     def delete_all(self):
         self._implemented_check()
-        with self.session_factory() as session:
+        with session_factory() as session:
             session.query(self.Model).delete(synchronize_session="fetch")
             session.commit()

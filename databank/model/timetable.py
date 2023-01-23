@@ -15,6 +15,3 @@ class Timetable(BaseModel):
     teacher = db.Column(db.Integer,
                         db.ForeignKey("teachers.id"),
                         nullable=False)
-
-    def __init__(self) -> None:
-        super().__init_()

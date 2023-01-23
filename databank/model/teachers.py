@@ -11,9 +11,6 @@ class Teachers(BaseModel):
     long_name = db.Column(db.String)
     short_name = db.Column(db.String)
 
-    def __init__(self) -> None:
-        super().__init__()
-
     def _dump_teacher_names(self):
         stack = json_to_dict(
             "C:/Code/WebUntisExporter/toolbox/teacher_id_name.json")
