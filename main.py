@@ -1,9 +1,7 @@
-import databank.model as models
 
 
 def main():
-    t = models.Teachers()
-    t.delete_all()
+    pass
 
 
 if __name__ == "__main__":
