@@ -1,4 +1,0 @@
-try:
-    import databank
-else:
-    

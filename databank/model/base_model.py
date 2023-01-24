@@ -43,11 +43,12 @@ class BaseModel(Base):
         return query
 
     def _implemented_check(self):
-        if type(self) == Base:
+        if type(self) == BaseModel:
             raise NotImplementedError
 
     def init(self, path: str):
         """Initializes needed values and access the path of the database."""
+        self._implemented_check()
         db_connection = db.create_engine("sqlite:///" + path)
         Base.metadata.create_all(bind=db_connection)
         self.session_factory = db.orm.sessionmaker()
@@ -55,6 +56,7 @@ class BaseModel(Base):
 
     def append(self, **collumns):
         """Adds an entry to the the current Model."""
+        self._implemented_check()
         with self.session_factory() as session:
             entry = self.Model(**collumns)
             session.add(entry)
