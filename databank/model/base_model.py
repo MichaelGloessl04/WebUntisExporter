@@ -48,6 +48,9 @@ class BaseModel(Base):
 
     def init(self, path: str):
         """Initializes needed values and access the path of the database."""
+        if type(path) is not str:
+            raise TypeError("Path should be <class 'str'>, is %s" %
+                            type(path))
         self._implemented_check()
         db_connection = db.create_engine("sqlite:///" + path)
         Base.metadata.create_all(bind=db_connection)
