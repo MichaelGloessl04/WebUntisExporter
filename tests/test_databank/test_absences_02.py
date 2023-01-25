@@ -1,5 +1,6 @@
 try:
     from databank.model import Absences
+    from errors import PathError
 except ImportError as e:
     print("Error while importing %s" % e)
 
@@ -34,4 +35,6 @@ def test_init_path_invalid_02():
     for wrong_arg in wrong_args:
         try:
             a.init(wrong_arg)
-        
+        except PathError as e:
+            msg = "'%s' is not a valid path." % wrong_arg
+            assert str(e) == msg

@@ -8,7 +8,7 @@ def test_init_00():
     """Test if the init method raises the expected exception."""
     try:
         bm = BaseModel()
-        bm.init("test/testbase.db")
+        bm.init("C:/Code/WebUntisExporter/tests/testbase.db")
         assert False
     except NotImplementedError:
         assert True
