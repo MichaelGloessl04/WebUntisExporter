@@ -25,3 +25,13 @@ def test_init_not_str_01():
             msg = ("Path should be <class 'str'>, is %s" %
                    type(wrong_arg))
             assert str(e) == msg
+
+
+def test_init_path_invalid_02():
+    """Test if the given path is valid."""
+    a = Absences()
+    wrong_args = ["Robert Ulmer", "", "#://", "C://:,#§="]
+    for wrong_arg in wrong_args:
+        try:
+            a.init(wrong_arg)
+        

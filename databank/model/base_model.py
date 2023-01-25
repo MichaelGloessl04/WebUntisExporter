@@ -1,5 +1,7 @@
 import sqlalchemy as db
 from sqlalchemy.ext.declarative import declarative_base
+from errors import PathError
+import os
 
 
 Base = declarative_base()
@@ -51,6 +53,8 @@ class BaseModel(Base):
         if type(path) is not str:
             raise TypeError("Path should be <class 'str'>, is %s" %
                             type(path))
+        if not os.path.exists(path):
+            raise PathError("'%s' is not a valid path." % path)
         self._implemented_check()
         db_connection = db.create_engine("sqlite:///" + path)
         Base.metadata.create_all(bind=db_connection)
