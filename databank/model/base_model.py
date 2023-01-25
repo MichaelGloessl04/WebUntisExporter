@@ -1,7 +1,7 @@
 import sqlalchemy as db
 from sqlalchemy.ext.declarative import declarative_base
-from errors import PathError
 import os
+from errors import PathError
 
 
 Base = declarative_base()
@@ -48,14 +48,29 @@ class BaseModel(Base):
         if type(self) == BaseModel:
             raise NotImplementedError
 
+    def _validate_path(self, path):
+        return_path = os.path.normpath(path)
+        temp_path = path
+        if temp_path.find(".db") <= 0:  # If path has no .db ending raise error
+            raise PathError("'%s' is not a valid path." % path)
+        while True:  # remove file from path
+            if temp_path[-1].find('/') == 0:
+                break
+            temp_path = temp_path[:-1]
+        if not os.path.exists(temp_path):  # If path doesnt exist raise error
+            raise PathError("'%s' is not a valid path." % path)
+        return return_path
+
+    def _is_valid_type(self, value, *types):
+        pass
+
     def init(self, path: str):
         """Initializes needed values and access the path of the database."""
         self._implemented_check()
         if type(path) is not str:
             raise TypeError("Path should be <class 'str'>, is %s" %
                             type(path))
-        if not os.path.exists(path):
-            raise PathError("'%s' is not a valid path." % path)
+        path = self._validate_path(path)
         db_connection = db.create_engine("sqlite:///" + path)
         Base.metadata.create_all(bind=db_connection)
         self.session_factory = db.orm.sessionmaker()

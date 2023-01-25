@@ -31,10 +31,17 @@ def test_init_not_str_01():
 def test_init_path_invalid_02():
     """Test if the given path is valid."""
     a = Absences()
-    wrong_args = ["Robert Ulmer", "", "#://", "C://:,#§="]
+    wrong_args = ["Robert Ulmer", "", "#:/", "C:/:,#§=", "test:/test.db"]
     for wrong_arg in wrong_args:
         try:
             a.init(wrong_arg)
+            assert False
         except PathError as e:
             msg = "'%s' is not a valid path." % wrong_arg
             assert str(e) == msg
+
+
+def test_init_funcitonality_03():
+    """Test if the init method works as intended."""
+    a = Absences()
+    a.init("C:/Code/WebUntisExporter/tests/testbase.db")
