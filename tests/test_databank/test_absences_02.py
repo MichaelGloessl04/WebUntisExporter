@@ -58,4 +58,14 @@ def test_Model_04():
     except AttributeError:
         assert True
 
-def test_
+
+def test_Column_Names():
+    """Test the Column_Names property."""
+    a = Absences()
+    assert a.Column_Names
+    assert a.Column_Names == ["id", "start", "end"]
+    try:
+        a.Column_Names = ""
+        assert False
+    except AttributeError:
+        assert True

@@ -52,7 +52,7 @@ class BaseModel(Base):
         self._implemented_check()
         inspector = db.inspect(self._db_connection)
         columns = inspector.get_columns(self.Table_Name)
-        return query
+        return columns
 
     def _implemented_check(self):
         if type(self) == BaseModel:
