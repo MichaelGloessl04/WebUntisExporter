@@ -1,11 +1,6 @@
 import sqlalchemy as db
 from .base_model import BaseModel
+from .models import Subjects as table
 
 
-class Subjects(BaseModel):
-    """Subject representation."""
-
-    __tablename__ = "subjects"
-    id = db.Column(db.Integer, primary_key=True)
-    long_name = db.Column(db.String)
-    short_name = db.Column(db.String)
+class Subjects():
