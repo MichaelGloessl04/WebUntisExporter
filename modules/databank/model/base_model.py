@@ -42,7 +42,7 @@ class BaseModel:
             BaseModel: The current Model.
         """
         self._implemented_check()
-        return type(self._table)
+        return self._table
 
     @property
     def Table_Name(self):
@@ -60,10 +60,9 @@ class BaseModel:
         Returns:
             list: a list of strings with all collumn names
         """
-        self._implemented_check()
-        inspector = db.inspect(self._db_connection)
-        columns = inspector.get_columns(self.Table_Name)
-        return columns
+        self._implemented_check()  # test
+        columns = self.Model.c
+        return [c.name for c in columns]
 
     def _implemented_check(self):
         if type(self) == BaseModel:
