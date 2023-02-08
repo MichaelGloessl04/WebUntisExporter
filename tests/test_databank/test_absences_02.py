@@ -1,9 +1,16 @@
+import time
+
+
 try:
     from databank.model import AbsenceHandler
     from databank.tables import Absences
     from errors import PathError
 except ImportError as e:
     print("Error while importing %s" % e)
+
+
+temp_time = int(time.time())
+db_path = "C:/Code/WebUntisExporter/tests/testbase.db"
 
 
 def test_init_empty_00():
@@ -43,12 +50,12 @@ def test_init_path_invalid_02():
 
 def test_init_funcitonality_03():
     """Test if the init method works as intended."""
-    a = AbsenceHandler("C:/Code/WebUntisExporter/tests/testbase.db")  # noqa: F841
+    a = AbsenceHandler()  # noqa: F841
 
 
 def test_Model_04():
     """Test the Model property."""
-    a = AbsenceHandler("C:/Code/WebUntisExporter/tests/testbase.db")  # noqa: F841
+    a = AbsenceHandler(db_path)  # noqa: F841
     assert a.Model
     assert a.Model == Absences
     try:
@@ -60,7 +67,7 @@ def test_Model_04():
 
 def test_Column_Names_05():
     """Test the Column_Names property."""
-    a = AbsenceHandler("C:/Code/WebUntisExporter/tests/testbase.db")  # noqa: F841
+    a = AbsenceHandler(db_path)  # noqa: F841
     assert a.Column_Names
     assert a.Column_Names == ["id", "start", "end"]
     try:
@@ -68,3 +75,17 @@ def test_Column_Names_05():
         assert False
     except AttributeError:
         assert True
+
+
+def test_append_06():
+    """Test the append method."""
+    expected = [(1, temp_time, temp_time)]
+    a = AbsenceHandler(db_path)  # noqa: F841
+    a.delete_all()
+    assert a.append
+    a.append(start=temp_time, end=temp_time)
+
+    with a.db_connection.connect() as session:
+        result = session.execute("""select * from %s """ % a.Model.__tablename__)
+        assert expected == result.fetchall()
+        a.delete(column="id", value="1")

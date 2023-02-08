@@ -10,8 +10,8 @@ class Absences(Base):
 
     __tablename__ = "absences"
     id = db.Column(db.Integer, primary_key=True)
-    start = db.Column(db.Time)
-    end = db.Column(db.Time)
+    start = db.Column(db.Integer)
+    end = db.Column(db.Integer)
 
 
 class Subjects(Base):

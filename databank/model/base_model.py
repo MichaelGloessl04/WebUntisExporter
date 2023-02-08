@@ -85,7 +85,7 @@ class BaseModel:
             session.add(entry)
             session.commit()
 
-    def delete(self, column: str, value: any):
+    def delete(self, column: str, value: str):
         """Deletes entries based on the given column and value."""
         self._implemented_check()
         with self.session_factory() as session:
