@@ -1,11 +1,10 @@
-import sqlalchemy as db
+from ..tables import Absences
 from .base_model import BaseModel
 
 
-class Absences(BaseModel):
+class AbsenceHandler(BaseModel):
     """Absence representation."""
 
-    __tablename__ = "absences"
-    id = db.Column(db.Integer, primary_key=True)
-    start = db.Column(db.Time)
-    end = db.Column(db.Time)
+    def __init__(self, path: str) -> None:
+        super().__init__(path)
+        self._table = Absences
