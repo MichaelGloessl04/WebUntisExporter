@@ -1,5 +1,5 @@
 from .teachers import Teachers
-from .absences import Absences
+from .absences import AbsenceHandler
 from .subjects import Subjects
 from .timetable import Timetable
 from .todos import Todos
@@ -12,7 +12,7 @@ __exports__ = [
     Todos,
     Subjects,
     Teachers,
-    Absences,
+    AbsenceHandler,
     Users,
     BaseModel
 ]

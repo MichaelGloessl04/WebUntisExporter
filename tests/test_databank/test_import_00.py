@@ -19,7 +19,7 @@ def test_import_model_02():
 def test_import_absences_02():
     """Test if the absences class can be importet."""
     try:
-        from databank.model import Absences  # noqa: F401
+        from databank.model import AbsenceHandler  # noqa: F401
         assert True
     except ModuleNotFoundError:
         assert False

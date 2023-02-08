@@ -7,7 +7,7 @@ from errors import PathError
 Base = declarative_base()
 
 
-class BaseModel(Base):
+class BaseModel:
     """An abstract base class for the database models.
 
     Args:
@@ -23,6 +23,18 @@ class BaseModel(Base):
     """
     __abstract__ = True
 
+    def __init__(self, path: str):
+        """Initializes needed values and access the path of the database."""
+        self._implemented_check()
+        if type(path) is not str:
+            raise TypeError("Path should be <class 'str'>, is %s" %
+                            type(path))
+        path = self._validate_path(path)
+        self.db_connection = db.create_engine("sqlite:///" + path)
+        Base.metadata.create_all(bind=self.db_connection)
+        self.session_factory = db.orm.sessionmaker()
+        self.session_factory.configure(bind=self.db_connection)
+
     @property
     def Model(self):
         """Return the type of the current object.
@@ -31,7 +43,7 @@ class BaseModel(Base):
             BaseModel: The current Model.
         """
         self._implemented_check()
-        return type(self)
+        return self._table
 
     @property
     def Column_Names(self):
@@ -41,8 +53,9 @@ class BaseModel(Base):
             list: a list of strings with all collumn names
         """
         self._implemented_check()
-        query = self.Model.columns.keys()
-        return query
+        with self.db_connection.connect() as session:
+            result = session.execute("""select * from %s """ % self.Model.__tablename__)
+            return result.keys()
 
     def _implemented_check(self):
         if type(self) == BaseModel:
@@ -63,18 +76,6 @@ class BaseModel(Base):
 
     def _is_valid_type(self, value, *types):
         pass
-
-    def init(self, path: str):
-        """Initializes needed values and access the path of the database."""
-        self._implemented_check()
-        if type(path) is not str:
-            raise TypeError("Path should be <class 'str'>, is %s" %
-                            type(path))
-        path = self._validate_path(path)
-        db_connection = db.create_engine("sqlite:///" + path)
-        Base.metadata.create_all(bind=db_connection)
-        self.session_factory = db.orm.sessionmaker()
-        self.session_factory.configure(bind=db_connection)
 
     def append(self, **collumns):
         """Adds an entry to the the current Model."""
