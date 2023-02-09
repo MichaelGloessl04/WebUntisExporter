@@ -1,11 +1,10 @@
-import sqlalchemy as db
+from ..tables import Subjects
 from .base_model import BaseModel
 
 
-class Subjects(BaseModel):
-    """Subject representation."""
+class SubjectHandler(BaseModel):
+    """Absence representation."""
 
-    __tablename__ = "subjects"
-    id = db.Column(db.Integer, primary_key=True)
-    long_name = db.Column(db.String)
-    short_name = db.Column(db.String)
+    def __init__(self, path: str) -> None:
+        super().__init__(path)
+        self._table = Subjects
