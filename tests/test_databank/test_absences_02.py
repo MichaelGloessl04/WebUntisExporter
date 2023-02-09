@@ -104,3 +104,19 @@ def test_delete_07():
         result = session.execute("""select * from %s """ % a.Model.__tablename__)
         assert expected == result.fetchall()
         a.delete_all()
+
+
+def test_delete_all_08():
+    """Test the delete_all method."""
+    expected = []
+    a = AbsenceHandler(db_path)  # noqa: F841
+    a.delete_all()
+    assert a.delete
+    a.append(start=temp_time, end=temp_time)
+    a.append(start=temp_time, end=temp_time)
+    a.delete_all()
+
+    with a.db_connection.connect() as session:
+        result = session.execute("""select * from %s """ % a.Model.__tablename__)
+        assert expected == result.fetchall()
+        a.delete_all()
