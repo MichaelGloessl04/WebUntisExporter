@@ -21,3 +21,12 @@ class Subjects(Base):
     id = db.Column(db.Integer, primary_key=True)
     long_name = db.Column(db.String)
     short_name = db.Column(db.String)
+
+
+class Teachers(Base):
+    """Teacher representation."""
+
+    __tablename__ = "teachers"
+    id = db.Column(db.Integer, primary_key=True)
+    long_name = db.Column(db.String)
+    short_name = db.Column(db.String)

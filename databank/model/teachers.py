@@ -1,20 +1,10 @@
-import sqlalchemy as db
+from ..tables import Teachers
 from .base_model import BaseModel
-from toolbox import json_to_dict
 
 
-class Teachers(BaseModel):
-    """Teacher representation."""
+class TeacherHandler(BaseModel):
+    """Absence representation."""
 
-    __tablename__ = "teachers"
-    id = db.Column(db.Integer, primary_key=True)
-    long_name = db.Column(db.String)
-    short_name = db.Column(db.String)
-
-    def _dump_teacher_names(self):
-        stack = json_to_dict(
-            "C:/Code/WebUntisExporter/toolbox/teacher_id_name.json")
-        for key in stack.keys():
-            self.append(id=int(key),
-                        short_name=stack[key][0],
-                        long_name=stack[key][1])
+    def __init__(self, path: str) -> None:
+        super().__init__(path)
+        self._table = Teachers
