@@ -1,6 +1,7 @@
 import webuntis
 import datetime
 import time
+from databank.model import *  # noqa: F403
 
 
 class WebUntisHandler:
@@ -45,8 +46,16 @@ class WebUntisHandler:
         self._session.logout()
 
     def update_database(self):
-        for lesson in self._timetable:
-            self.db.add_lesson(self._session.subjects().filter(
-                               id=lesson.subjects[0].id)[0].name,
-                               time.mktime(lesson.start.timetuple()),
-                               time.mktime(lesson.end.timetuple()))
+        t = TimetableHandler("C:/Code/WebUntisExporter/databank/databank.db")  # noqa: F405
+        for lesson in self.timetable:
+            subject_id = lesson.subjects[0].id
+            start = int(time.mktime(lesson.start.timetuple()))
+            end = int(time.mktime(lesson.end.timetuple()))
+            teacher_id = 0
+            t.append(subject=subject_id, start=start, end=end, teacher=teacher_id)
+
+    def _dump_subjects(self):
+        s = self._session.subjects()
+        subjects = SubjectHandler("C:/Code/WebUntisExporter/databank/databank.db")  # noqa: F405
+        for subject in s:
+            subjects.append(id=subject.id, short_name=subject.name, long_name=subject.long_name)

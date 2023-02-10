@@ -1,17 +1,10 @@
-import sqlalchemy as db
+from ..tables import Timetable
 from .base_model import BaseModel
 
 
-class Timetable(BaseModel):
-    """Timetable representation."""
+class TimetableHandler(BaseModel):
+    """Absence representation."""
 
-    __tablename__ = "timetable"
-    id = db.Column(db.Integer, primary_key=True)
-    subject = db.Column(db.Integer,
-                        db.ForeignKey("subjects.id"),
-                        nullable=False)
-    start = db.Column(db.Time)
-    end = db.Column(db.Time)
-    teacher = db.Column(db.Integer,
-                        db.ForeignKey("teachers.id"),
-                        nullable=False)
+    def __init__(self, path: str) -> None:
+        super().__init__(path)
+        self._table = Timetable

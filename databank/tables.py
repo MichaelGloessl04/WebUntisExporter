@@ -30,3 +30,18 @@ class Teachers(Base):
     id = db.Column(db.Integer, primary_key=True)
     long_name = db.Column(db.String)
     short_name = db.Column(db.String)
+
+
+class Timetable(Base):
+    """Timetable representation."""
+
+    __tablename__ = "timetable"
+    id = db.Column(db.Integer, primary_key=True)
+    subject = db.Column(db.Integer,
+                        db.ForeignKey("subjects.id"),
+                        nullable=False)
+    start = db.Column(db.Integer)
+    end = db.Column(db.Integer)
+    teacher = db.Column(db.Integer,
+                        db.ForeignKey("teachers.id"),
+                        nullable=False)

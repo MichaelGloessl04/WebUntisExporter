@@ -57,6 +57,28 @@ class BaseModel:
             result = session.execute("""select * from %s """ % self.Model.__tablename__)
             return result.keys()
 
+    @property
+    def Table_Content(self):
+        self._implemented_check()
+        with self.db_connection.connect() as session:
+            result = session.execute("""select * from %s order by start ASC""" %
+                                     self.Model.__tablename__)
+            return result.fetchall()
+
+    @property
+    def To_Dict(self) -> dict:
+        """Return the full table content."""
+        self._implemented_check()
+        keys = self.Column_Names
+        content = self.Table_Content
+
+        output = {}
+
+        for index, key in enumerate(keys):
+            output[key] = [entry[index] for entry in content]
+
+        return output
+
     def _implemented_check(self):
         if type(self) == BaseModel:
             raise NotImplementedError
@@ -76,6 +98,13 @@ class BaseModel:
 
     def _is_valid_type(self, value, *types):
         pass
+
+    def get_where(self, search_column, value):
+        self._implemented_check()
+        with self.db_connection.connect() as session:
+            result = session.execute("""select %s from %s where id = %s""" %
+                                     (search_column, self.Model.__tablename__, value))
+            return result.fetchall()
 
     def append(self, **collumns):
         """Adds an entry to the the current Model."""
